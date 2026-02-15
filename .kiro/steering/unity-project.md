@@ -27,10 +27,11 @@ Path: `C:\Program Files\Unity\Hub\Editor\2022.3.16f1\Editor\Unity.exe`
 
 ## Running Tests
 
-- Unity is typically open with the project loaded, so **batch mode `-runTests` will fail** with "Multiple Unity instances cannot open the same project."
-- Tests must be run from the Unity Test Runner inside the editor: Window → General → Test Runner → EditMode tab.
-- After writing tests, ask the user to run them and report results rather than attempting batch mode execution.
+- The Unity Editor is always open with this project. **Do not attempt to run tests via command line** — batch mode will fail with "Multiple Unity instances cannot open the same project."
 - There is no `dotnet test` support — the `.csproj` files are Unity-generated and not compatible with `dotnet` CLI.
+- **After writing or updating tests, always ask the user to run them in the Unity Test Runner** (Window → General → Test Runner → EditMode tab) and report back the results.
+- Do not mark PBT tasks as passed/failed until the user confirms the test results. Use `updatePBTStatus` with `not_run` until then.
+- When asking the user to run tests, specify which test class or filter to use (e.g., "run PathfinderTests in the EditMode Test Runner").
 
 ## Assembly Definitions
 

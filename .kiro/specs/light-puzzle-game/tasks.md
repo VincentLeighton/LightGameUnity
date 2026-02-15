@@ -46,15 +46,15 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Test invalid tile values, missing beam emitters, missing objectives, out-of-bounds positions
     - **Validates: Requirements 6.1, 7.1, 7.2, 7.4**
 
-- [ ] 2. Implement pathfinding
-  - [ ] 2.1 Implement A* pathfinder as a static utility class
+- [x] 2. Implement pathfinding
+  - [x] 2.1 Implement A* pathfinder as a static utility class
     - Create `Pathfinder.FindPath(start, end, isWalkable)` returning `List<Vector2Int>`
     - Use Manhattan distance heuristic for grid-based movement
     - Support 4-directional movement (up, down, left, right)
     - Return empty list if no path exists
     - _Requirements: 1.1, 1.2_
 
-  - [ ]* 2.2 Write property tests for pathfinding correctness
+  - [x] 2.2 Write property tests for pathfinding correctness
     - **Property 1: Pathfinding correctness**
     - Create GridGenerator that produces random grids with connected floor regions
     - Verify returned paths contain only walkable tiles with adjacent consecutive tiles
@@ -68,7 +68,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Wall tiles block line-of-sight; only floor tiles with clear LOS are illuminated
     - _Requirements: 2.1, 2.2_
 
-  - [ ]* 3.2 Write property tests for radius illumination
+  - [ ] 3.2 Write property tests for radius illumination
     - **Property 2: Radius illumination with shadow casting**
     - Generate random grids with light source positions and radii
     - Verify floor tiles within radius with LOS are illuminated, blocked tiles are not
