@@ -61,64 +61,64 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Verify shortest path property (no shorter path exists)
     - **Validates: Requirements 1.1, 1.2**
 
-- [ ] 3. Implement light and beam systems (pure logic)
-  - [ ] 3.1 Implement radius illumination with shadow casting
+- [x] 3. Implement light and beam systems (pure logic)
+  - [x] 3.1 Implement radius illumination with shadow casting
     - Create `LightSourceLogic.GetRadiusIlluminatedTiles(position, radius, isWall)` returning `HashSet<Vector2Int>`
     - Use Bresenham line-of-sight check from source to each tile within radius
     - Wall tiles block line-of-sight; only floor tiles with clear LOS are illuminated
     - _Requirements: 2.1, 2.2_
 
-  - [ ] 3.2 Write property tests for radius illumination
+  - [x] 3.2 Write property tests for radius illumination
     - **Property 2: Radius illumination with shadow casting**
     - Generate random grids with light source positions and radii
     - Verify floor tiles within radius with LOS are illuminated, blocked tiles are not
     - **Validates: Requirements 2.1, 2.2**
 
-  - [ ] 3.3 Implement mirror reflection lookup table
+  - [x] 3.3 Implement mirror reflection lookup table
     - Create `ReflectionTable` static class with precomputed 8x8 reflection results
     - Map each (incomingDirectionIndex, mirrorRotationIndex) to outgoingDirectionIndex
     - Implement `GetReflectedDirection(incomingDirection, mirrorRotationIndex)` method
     - _Requirements: 3.5, 8.1, 8.2_
 
-  - [ ]* 3.4 Write property tests for mirror reflection
+  - [x] 3.4 Write property tests for mirror reflection
     - **Property 6: Mirror reflection correctness**
     - For all 64 combinations of incoming direction × mirror angle, verify law of reflection holds
     - Verify output is always one of the 8 valid grid directions
     - **Validates: Requirements 3.5, 8.2**
 
-  - [ ]* 3.5 Write property tests for mirror rotation invariant
+  - [x] 3.5 Write property tests for mirror rotation invariant
     - **Property 8: Mirror rotation invariant**
     - For any starting rotation index and any number of rotations, verify index stays in [0,7]
     - Verify 8 rotations returns to original angle
     - **Validates: Requirements 4.3, 8.1**
 
-  - [ ] 3.6 Implement beam tracing algorithm
+  - [x] 3.6 Implement beam tracing algorithm
     - Create `BeamTracer.TraceBeams(beamEmitters, mirrors, isWall, illuminatedByLightSource, maxReflections)` returning `(HashSet<Vector2Int> illuminatedTiles, List<BeamSegment> segments)`
     - First filter beam emitters to only active ones (tile illuminated by a light source)
     - For each active emitter, trace beam tile-by-tile: stop at walls, reflect at mirrors using ReflectionTable
     - Cap reflections at maxReflections (default 20)
     - _Requirements: 3.1, 3.2, 3.3, 3.4, 3.5, 8.3, 8.4, 8.5_
 
-  - [ ]* 3.7 Write property tests for beam tracing
+  - [x] 3.7 Write property tests for beam tracing
     - **Property 4: Beam tracing correctness**
     - Generate grids with beam emitters and mirrors, verify beam segments are straight lines in valid directions
     - Verify segments start at emitters/mirrors and end at walls/mirrors
     - Verify dormant emitters produce no segments
     - **Validates: Requirements 3.1, 3.2, 3.4, 8.3**
 
-  - [ ]* 3.8 Write property tests for beam emitter activation
+  - [x] 3.8 Write property tests for beam emitter activation
     - **Property 5: Beam emitter activation**
     - Generate grids with light sources and beam emitters at various positions
     - Verify emitter is active iff its tile is in a light source's illuminated set
     - **Validates: Requirements 3.1, 3.2, 3.3**
 
-  - [ ]* 3.9 Write property tests for beam reflection loop cap
+  - [x] 3.9 Write property tests for beam reflection loop cap
     - **Property 11: Beam reflection loop cap**
     - Create mirror configurations that form reflection loops (mirrors facing each other)
     - Verify beam tracing terminates with at most 20 segments
     - **Validates: Requirements 8.5**
 
-- [ ] 4. Checkpoint - Ensure all core logic tests pass
+- [x] 4. Checkpoint - Ensure all core logic tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 5. Implement inventory and puzzle completion logic

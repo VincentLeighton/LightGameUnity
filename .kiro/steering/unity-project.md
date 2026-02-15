@@ -1,5 +1,6 @@
 ---
 inclusion: auto
+description: Unity project conventions, layout, and testing guidelines for the Light Puzzle Game
 ---
 
 # Unity Project: Light Puzzle Game
