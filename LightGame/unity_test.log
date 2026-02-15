@@ -1,0 +1,22 @@
+[Licensing::Module] Trying to connect to existing licensing client channel...
+Built from '6000.3/staging' branch; Version is '6000.3.3f1 (ef04196de0d6) revision 15664153'; Using compiler version '194234433'; Build Type 'Release'
+OS: 'Windows 11  (10.0.26200) 64bit Professional' Language: 'en' Physical Memory: 32490 MB
+BatchMode: 1, IsHumanControllingUs: 0, StartBugReporterOnCrash: 0, Is64bit: 1
+Date: 2026-02-15T20:03:33Z
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-vince" at "2026-02-15T20:03:33.8275855Z"
+
+COMMAND LINE ARGUMENTS:
+C:\Program Files\Unity\Hub\Editor\6000.3.3f1\Editor\Unity.exe
+-runTests
+-batchmode
+-projectPath
+LightGame
+-testResults
+LightGame/TestResults.xml
+-testPlatform
+EditMode
+-logFile
+LightGame/unity_test.log
+Successfully changed project path to: C:/Repositories/LightGameUnity/LightGame
+C:/Repositories/LightGameUnity/LightGame
+Exiting without the bug reporter. Application will terminate with return code 1

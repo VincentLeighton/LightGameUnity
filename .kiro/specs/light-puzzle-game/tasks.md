@@ -40,7 +40,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Verify serialize-then-deserialize produces equivalent objects
     - **Validates: Requirements 7.3**
 
-  - [ ]* 1.4 Write property tests for level validation
+  - [x] 1.4 Write property tests for level validation
     - **Property 10: Level validation correctness**
     - Test that validation accepts valid levels and rejects levels missing required elements
     - Test invalid tile values, missing beam emitters, missing objectives, out-of-bounds positions
