@@ -1,0 +1,36 @@
+# Unity generated
+LightGame/Library/
+LightGame/Temp/
+LightGame/Obj/
+LightGame/Build/
+LightGame/Builds/
+LightGame/Logs/
+LightGame/UserSettings/
+LightGame/MemoryCaptures/
+LightGame/Recordings/
+
+# IDE
+.vs/
+.vscode/
+*.csproj
+*.sln
+*.suo
+*.user
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Unity asset store
+LightGame/Assets/AssetStoreTools*
+
+# Crashlogs
+sysinfo.txt
+crashlytics-build.properties
