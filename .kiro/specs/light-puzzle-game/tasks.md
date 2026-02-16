@@ -227,8 +227,8 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
 - [x] 8. Checkpoint - Ensure all component tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 9. Implement InputManager and game flow
-  - [ ] 9.1 Implement InputManager MonoBehaviour
+- [x] 9. Implement InputManager and game flow
+  - [x] 9.1 Implement InputManager MonoBehaviour
     - Detect single tap (raycast to tile position), long press (200ms threshold), and pinch-to-zoom (two-touch)
     - Route taps to PlayerController (movement mode) or MirrorInteraction (placement mode)
     - Route long press to MirrorInteraction.TryPickupMirror
@@ -237,7 +237,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Fire OnTileTapped, OnTileLongPressed, OnPinchZoom events
     - _Requirements: 1.1, 1.4, 1.6, 4.2, 4.3, 4.4, 9.4_
 
-  - [ ] 9.2 Implement LevelManager MonoBehaviour
+  - [x] 9.2 Implement LevelManager MonoBehaviour
     - Load level JSON from Assets/Levels/ by index
     - Deserialize into LevelData, validate using validation logic
     - Instantiate Grid (Tilemap), Player, LightSources, BeamEmitters, Mirrors, PuzzleObjectives from LevelData
@@ -245,7 +245,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Handle validation failure: show error, return to level select
     - _Requirements: 7.1, 7.2, 7.3, 7.4, 7.5_
 
-  - [ ] 9.3 Implement GameManager singleton MonoBehaviour
+  - [x] 9.3 Implement GameManager singleton MonoBehaviour
     - DontDestroyOnLoad, manage GameState transitions
     - LoadLevel via LevelManager, handle level completion (2-second delay then next level)
     - Handle game-complete when no more levels
@@ -255,7 +255,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Handle OnApplicationPause for background save/resume
     - _Requirements: 6.2, 6.3, 6.4, 11.2, 11.3, 11.4_
 
-  - [ ]* 9.4 Write property tests for save/load round-trip
+  - [x] 9.4 Write property tests for save/load round-trip
     - **Property 15: Save/load round-trip**
     - Generate random SaveData objects, serialize then deserialize, verify equivalence
     - **Validates: Requirements 11.4**

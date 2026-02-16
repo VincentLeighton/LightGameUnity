@@ -2,6 +2,7 @@ Shader "Custom/FogOfWar"
 {
     Properties
     {
+        _MainTex ("Main Texture", 2D) = "white" {}
         _FogTex ("Fog Texture", 2D) = "black" {}
         _FogColor ("Fog Color", Color) = (0, 0, 0, 1)
     }
@@ -32,6 +33,7 @@ Shader "Custom/FogOfWar"
                 float4 vertex : SV_POSITION;
             };
 
+            sampler2D _MainTex;
             sampler2D _FogTex;
             fixed4 _FogColor;
 
