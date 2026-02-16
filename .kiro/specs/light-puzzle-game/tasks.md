@@ -281,15 +281,15 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Use Canvas Scaler with "Scale With Screen Size" for responsive layout
     - _Requirements: 10.1, 10.2, 10.3, 10.4, 10.5, 10.6, 10.7_
 
-- [ ] 11. Create sample levels and beam rendering
-  - [ ] 11.1 Create 3 tutorial levels as JSON files
+- [x] 11. Create sample levels and beam rendering
+  - [x] 11.1 Create 3 tutorial levels as JSON files
     - Level 1: Simple — one light source, one beam emitter, one mirror, one objective. Teaches basic mechanics.
     - Level 2: Medium — introduces beam emitter activation (emitter starts in dark, player must position light source). Two mirrors.
     - Level 3: Harder — multiple beam emitters, mirror chains, objectives in hard-to-reach corners.
     - Place in Assets/Levels/ as level_0.json, level_1.json, level_2.json
     - _Requirements: 7.1, 7.2, 7.3_
 
-  - [ ] 11.2 Implement beam visual rendering
+  - [x] 11.2 Implement beam visual rendering
     - Use LineRenderer components to draw beam segments from LightBeamSystem.GetBeamSegments()
     - Update visuals on OnIlluminationChanged
     - Use a bright color (white/yellow) with slight glow effect
