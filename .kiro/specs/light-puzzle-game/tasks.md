@@ -121,32 +121,32 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
 - [x] 4. Checkpoint - Ensure all core logic tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 5. Implement inventory and puzzle completion logic
-  - [ ] 5.1 Implement Inventory class
+- [x] 5. Implement inventory and puzzle completion logic
+  - [x] 5.1 Implement Inventory class
     - Create `Inventory` with AddMirror(), RemoveMirror() (returns false if empty), MirrorCount property
     - Fire OnMirrorCountChanged event when count changes
     - _Requirements: 4.1, 4.2, 4.4, 4.5_
 
-  - [ ]* 5.2 Write property tests for inventory round-trip
+  - [x] 5.2 Write property tests for inventory round-trip
     - **Property 7: Inventory round-trip**
     - For random sequences of add/remove operations, verify count equals adds minus successful removes
     - Verify pickup-then-place-then-pickup leaves count unchanged
     - **Validates: Requirements 4.1, 4.2, 4.4**
 
-  - [ ] 5.3 Implement puzzle completion check and remaining count
+  - [x] 5.3 Implement puzzle completion check and remaining count
     - Create `PuzzleChecker.IsLevelComplete(objectives, illuminatedTiles)` returning bool
     - Create `PuzzleChecker.GetRemainingCount(objectives, illuminatedTiles)` returning int
     - _Requirements: 6.2, 10.2_
 
-  - [ ]* 5.4 Write property tests for level completion and remaining count
+  - [x] 5.4 Write property tests for level completion and remaining count
     - **Property 13: Level completion check**
     - **Property 14: Remaining objectives count**
     - Generate random objective positions and illuminated tile sets
     - Verify completion iff all objectives illuminated; remaining count equals un-illuminated objectives
     - **Validates: Requirements 6.2, 10.2**
 
-- [ ] 6. Implement Unity components - Player and Camera
-  - [ ] 6.1 Implement PlayerController MonoBehaviour
+- [x] 6. Implement Unity components - Player and Camera
+  - [x] 6.1 Implement PlayerController MonoBehaviour
     - Attach to Player GameObject; use Pathfinder for tap-to-move
     - Animate movement at 5 tiles/second along path
     - Support path recalculation on new tap during movement
@@ -157,7 +157,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
       3. Drag the `PlayerController` script onto the Player GameObject in the Inspector
     - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5_
 
-  - [ ] 6.2 Implement CameraController MonoBehaviour
+  - [x] 6.2 Implement CameraController MonoBehaviour
     - Smooth follow player position using Vector3.Lerp
     - Set orthographic projection for top-down view
     - Clamp camera position within level bounds
@@ -168,7 +168,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
       3. Verify the camera's Projection is set to "Orthographic" (should be default with 2D template)
     - _Requirements: 9.1, 9.2, 9.3, 9.4, 9.5_
 
-  - [ ]* 6.3 Write property tests for camera bounds clamping
+  - [x] 6.3 Write property tests for camera bounds clamping
     - **Property 12: Camera bounds clamping**
     - For random player positions and level bounds, verify camera stays within bounds
     - For random zoom inputs, verify orthographic size stays within min/max
@@ -207,7 +207,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
       5. Assign the material reference in the Inspector on the FogOfWarSystem component
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-  - [ ]* 7.5 Write property tests for fog-illumination invariant
+  - [ ] 7.5 Write property tests for fog-illumination invariant
     - **Property 3: Fog-illumination invariant**
     - Verify fog visible set equals illuminated tile set after updates
     - **Validates: Requirements 2.3, 2.4, 3.4, 5.1, 5.5**
