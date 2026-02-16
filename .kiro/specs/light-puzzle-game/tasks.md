@@ -260,8 +260,8 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Generate random SaveData objects, serialize then deserialize, verify equivalence
     - **Validates: Requirements 11.4**
 
-- [ ] 10. Implement UI
-  - [ ] 10.1 Create Canvas with UI elements
+- [x] 10. Implement UI
+  - [x] 10.1 Create Canvas with UI elements
     - ⚠️ **REQUIRES HUMAN INPUT — Unity Editor steps:**
       1. In the Hierarchy, right-click → UI → Canvas
       2. Select the Canvas → in Inspector set Canvas Scaler to "Scale With Screen Size", reference resolution 1080x1920 (portrait)
