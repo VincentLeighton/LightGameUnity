@@ -174,19 +174,19 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - For random zoom inputs, verify orthographic size stays within min/max
     - **Validates: Requirements 9.3, 9.4**
 
-- [ ] 7. Implement Unity components - Light, Beam, Fog, and Mirror
-  - [ ] 7.1 Implement LightSource MonoBehaviour
+- [x] 7. Implement Unity components - Light, Beam, Fog, and Mirror
+  - [x] 7.1 Implement LightSource MonoBehaviour
     - Attach to light source GameObjects; configure TilePosition and IlluminationRadius
     - Call LightSourceLogic.GetRadiusIlluminatedTiles for illumination calculation
     - _Requirements: 2.1, 2.2_
 
-  - [ ] 7.2 Implement BeamEmitter MonoBehaviour
+  - [x] 7.2 Implement BeamEmitter MonoBehaviour
     - Attach to beam emitter GameObjects; configure TilePosition and BeamDirection
     - Track IsActive state based on whether tile is illuminated by a LightSource
     - Fire OnActiveStateChanged event when activation state changes
     - _Requirements: 3.1, 3.2, 3.3_
 
-  - [ ] 7.3 Implement LightBeamSystem MonoBehaviour
+  - [x] 7.3 Implement LightBeamSystem MonoBehaviour
     - Orchestrate all illumination: collect light source radii + beam tracer results
     - Expose GetIlluminatedTiles() returning union of all illuminated tiles
     - Expose GetBeamSegments() for beam rendering
@@ -194,7 +194,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Fire OnIlluminationChanged event
     - _Requirements: 2.3, 2.4, 3.1, 3.2, 3.3, 3.4, 3.5, 3.6, 3.7_
 
-  - [ ] 7.4 Implement FogOfWarSystem MonoBehaviour
+  - [x] 7.4 Implement FogOfWarSystem MonoBehaviour
     - Create render texture sized to level grid (one pixel per tile)
     - Listen to LightBeamSystem.OnIlluminationChanged
     - Lerp tile alpha over 0.3 seconds for fade-in/fade-out transitions
@@ -207,24 +207,24 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
       5. Assign the material reference in the Inspector on the FogOfWarSystem component
     - _Requirements: 5.1, 5.2, 5.3, 5.4, 5.5_
 
-  - [ ] 7.5 Write property tests for fog-illumination invariant
+  - [x] 7.5 Write property tests for fog-illumination invariant
     - **Property 3: Fog-illumination invariant**
     - Verify fog visible set equals illuminated tile set after updates
     - **Validates: Requirements 2.3, 2.4, 3.4, 5.1, 5.5**
 
-  - [ ] 7.6 Implement Mirror MonoBehaviour and MirrorInteraction
+  - [x] 7.6 Implement Mirror MonoBehaviour and MirrorInteraction
     - Mirror: TilePosition, RotationIndex, Rotate() with wraparound, GetReflectedDirection using ReflectionTable
     - MirrorInteraction: TryPlaceMirror (check empty floor tile, decrement inventory), TryRotateMirror (tap), TryPickupMirror (long-press, increment inventory)
     - Trigger LightBeamSystem.RecalculateAllBeams on any mirror change
     - _Requirements: 4.1, 4.2, 4.3, 4.4, 4.5, 4.6, 4.7_
 
-  - [ ] 7.7 Implement PuzzleObjective MonoBehaviour
+  - [x] 7.7 Implement PuzzleObjective MonoBehaviour
     - Track IsIlluminated state from LightBeamSystem illuminated tiles
     - Render subtle faint glow sprite visible even in dark areas
     - Fire OnStateChanged event
     - _Requirements: 6.1, 6.5_
 
-- [ ] 8. Checkpoint - Ensure all component tests pass
+- [x] 8. Checkpoint - Ensure all component tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 9. Implement InputManager and game flow
