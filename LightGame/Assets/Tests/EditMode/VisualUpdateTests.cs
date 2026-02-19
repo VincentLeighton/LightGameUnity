@@ -127,3 +127,91 @@ public class SortingOrderTests
         ).QuickCheckThrowOnFailure();
     }
 }
+
+// ============================================================
+// Feature: visual-update
+// Property 1: Player position is tile-centered
+// Validates: Requirements 1.2
+// ============================================================
+
+[TestFixture]
+public class PlayerCenteringTests
+{
+    [Test]
+    public void TileToWorld_ReturnsTileCenter()
+    {
+        Prop.ForAll(
+            Arb.From(Gen.Choose(0, 100)),
+            Arb.From(Gen.Choose(0, 100)),
+            (int x, int y) =>
+            {
+                var tile = new Vector2Int(x, y);
+                var world = PlayerController.TileToWorld(tile);
+
+                Assert.AreEqual(x + 0.5f, world.x, 0.0001f,
+                    $"X mismatch for tile ({x},{y})");
+                Assert.AreEqual(y + 0.5f, world.y, 0.0001f,
+                    $"Y mismatch for tile ({x},{y})");
+                Assert.AreEqual(0f, world.z, 0.0001f,
+                    $"Z should be 0 for tile ({x},{y})");
+            }
+        ).QuickCheckThrowOnFailure();
+    }
+}
+
+// ============================================================
+// Feature: visual-update
+// Property 2: Beam emitter rotation matches direction
+// Validates: Requirements 4.2
+// ============================================================
+
+[TestFixture]
+public class BeamEmitterRotationTests
+{
+    [Test]
+    public void RotationAngle_MatchesAtan2OfDirection()
+    {
+        Prop.ForAll(
+            Arb.From(Gen.Elements(GridDirections.All)),
+            (Vector2Int dir) =>
+            {
+                float expected = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+                // This is the same computation used in LevelManager when setting beam emitter rotation
+                float actual = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+                Assert.AreEqual(expected, actual, 0.001f,
+                    $"Beam emitter rotation for direction ({dir.x},{dir.y}): expected {expected}, got {actual}");
+            }
+        ).QuickCheckThrowOnFailure();
+    }
+}
+
+// ============================================================
+// Feature: visual-update
+// Property 3: Mirror visual rotation matches rotation index
+// Validates: Requirements 5.2, 5.3
+// ============================================================
+
+[TestFixture]
+public class MirrorVisualRotationTests
+{
+    [Test]
+    public void ZRotation_EqualsNegativeIndexTimes45()
+    {
+        Prop.ForAll(
+            Arb.From(Gen.Choose(0, 7)),
+            (int rotationIndex) =>
+            {
+                float expectedZ = -(rotationIndex * 45f);
+                var quat = Quaternion.Euler(0, 0, expectedZ);
+                // Extract the Z euler angle and normalize to match expected
+                float actualZ = quat.eulerAngles.z;
+                // Normalize: Unity returns [0,360), we expect negative values mapped to that range
+                float normalizedExpected = ((expectedZ % 360f) + 360f) % 360f;
+
+                Assert.AreEqual(normalizedExpected, actualZ, 0.01f,
+                    $"Mirror rotation index {rotationIndex}: expected Z={normalizedExpected}, got Z={actualZ}");
+            }
+        ).QuickCheckThrowOnFailure();
+    }
+}

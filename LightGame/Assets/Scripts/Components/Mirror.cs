@@ -23,6 +23,7 @@ public class Mirror : MonoBehaviour
     public void Rotate()
     {
         RotationIndex = (RotationIndex + 1) % 8;
+        transform.rotation = Quaternion.Euler(0, 0, -RotationIndex * 45f);
         OnMirrorChanged?.Invoke();
     }
 

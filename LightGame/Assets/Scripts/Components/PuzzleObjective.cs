@@ -38,9 +38,18 @@ public class PuzzleObjective : MonoBehaviour
         // Update glow visual
         if (GlowRenderer != null)
         {
-            var color = GlowRenderer.color;
-            color.a = illuminated ? IlluminatedAlpha : GlowAlpha;
-            GlowRenderer.color = color;
+            if (illuminated)
+            {
+                var litColor = ColorPalette.ObjectiveLit;
+                litColor.a = 0.85f;
+                GlowRenderer.color = litColor;
+            }
+            else
+            {
+                var unlitColor = ColorPalette.ObjectiveUnlit;
+                unlitColor.a = 0.25f;
+                GlowRenderer.color = unlitColor;
+            }
         }
 
         OnStateChanged?.Invoke(this);

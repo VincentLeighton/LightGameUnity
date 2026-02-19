@@ -42,6 +42,10 @@ public class PlayerController : MonoBehaviour
     /// Initializes the player at the given tile position.
     /// Call this after level load to place the player on the grid.
     /// </summary>
+    /// <summary>
+    /// Initializes the player at the given tile position.
+    /// Call this after level load to place the player on the grid.
+    /// </summary>
     public void Initialize(Vector2Int startTile)
     {
         CurrentTilePosition = startTile;
@@ -49,7 +53,21 @@ public class PlayerController : MonoBehaviour
         _currentPath.Clear();
         _pathIndex = 0;
         IsMoving = false;
+
+        // Apply visual configuration
+        transform.localScale = Vector3.one * VisualConfig.PlayerScale;
+
+        // Only create sprite once
+        var sr = GetComponent<SpriteRenderer>();
+        if (sr == null)
+        {
+            sr = gameObject.AddComponent<SpriteRenderer>();
+            sr.sprite = SpriteFactory.CreateCircle(VisualConfig.SpriteResolution, ColorPalette.Player);
+            sr.color = Color.white; // Sprite already has color baked in
+            sr.sortingOrder = VisualConfig.PlayerSortOrder;
+        }
     }
+
 
     /// <summary>
     /// Requests the player to move to the target tile.

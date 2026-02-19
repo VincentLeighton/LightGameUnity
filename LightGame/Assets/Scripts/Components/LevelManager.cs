@@ -111,6 +111,22 @@ public class LevelManager : MonoBehaviour
         for (int y = 0; y < data.height; y++)
             _tileGrid[y] = data.tiles[y].row;
 
+        // Render wall and floor tile visuals
+        for (int y = 0; y < data.height; y++)
+        {
+            for (int x = 0; x < _tileGrid[y].Length; x++)
+            {
+                bool wall = _tileGrid[y][x] == "#";
+                var tileGo = CreateLevelObject(wall ? $"Wall_{x}_{y}" : $"Floor_{x}_{y}");
+                tileGo.transform.position = TileToWorld(x, y);
+                tileGo.transform.localScale = Vector3.one;
+                var sr = tileGo.AddComponent<SpriteRenderer>();
+                sr.sprite = SpriteFactory.CreateSquare(VisualConfig.SpriteResolution,
+                    wall ? ColorPalette.Wall : ColorPalette.Floor);
+                sr.sortingOrder = wall ? VisualConfig.WallSortOrder : VisualConfig.FloorSortOrder;
+            }
+        }
+
         Func<Vector2Int, bool> isWall = pos => IsWall(pos);
         Func<Vector2Int, bool> isWalkable = pos => IsWalkable(pos);
 
@@ -135,6 +151,12 @@ public class LevelManager : MonoBehaviour
             ls.IlluminationRadius = lsData.radius;
             ls.IsWall = isWall;
             _lightSources[i] = ls;
+
+            // Apply light source visuals
+            go.transform.localScale = Vector3.one * VisualConfig.LightSourceScale;
+            var lsSr = go.AddComponent<SpriteRenderer>();
+            lsSr.sprite = SpriteFactory.CreateCircle(VisualConfig.SpriteResolution, ColorPalette.LightSource);
+            lsSr.sortingOrder = VisualConfig.ElementSortOrder;
         }
 
         // Instantiate beam emitters
@@ -148,6 +170,14 @@ public class LevelManager : MonoBehaviour
             be.TilePosition = beData.ToVector2Int();
             be.BeamDirection = beData.GetDirection();
             _beamEmitters[i] = be;
+
+            // Apply beam emitter visuals
+            go.transform.localScale = Vector3.one * VisualConfig.BeamEmitterScale;
+            var beSr = go.AddComponent<SpriteRenderer>();
+            beSr.sprite = SpriteFactory.CreateTriangle(VisualConfig.SpriteResolution, ColorPalette.BeamEmitter);
+            beSr.sortingOrder = VisualConfig.ElementSortOrder;
+            float angle = Mathf.Atan2(be.BeamDirection.y, be.BeamDirection.x) * Mathf.Rad2Deg;
+            go.transform.rotation = Quaternion.Euler(0, 0, angle);
         }
 
         // Instantiate mirrors
@@ -173,6 +203,15 @@ public class LevelManager : MonoBehaviour
             mirror.RotationIndex = mData.rotationIndex;
             _mirrors[i] = mirror;
             _levelObjects.Add(go);
+
+            // Apply mirror visuals
+            go.transform.localScale = Vector3.one * VisualConfig.MirrorScale;
+            var mSr = go.GetComponent<SpriteRenderer>();
+            if (mSr == null)
+                mSr = go.AddComponent<SpriteRenderer>();
+            mSr.sprite = SpriteFactory.CreateRectangle(VisualConfig.SpriteResolution, VisualConfig.SpriteResolution / 2, ColorPalette.MirrorSurface);
+            mSr.sortingOrder = VisualConfig.ElementSortOrder;
+            go.transform.rotation = Quaternion.Euler(0, 0, -mirror.RotationIndex * 45f);
         }
 
         // Instantiate puzzle objectives
@@ -185,6 +224,16 @@ public class LevelManager : MonoBehaviour
             var po = go.AddComponent<PuzzleObjective>();
             po.TilePosition = poData.ToVector2Int();
             _puzzleObjectives[i] = po;
+
+            // Apply puzzle objective visuals
+            go.transform.localScale = Vector3.one * VisualConfig.ObjectiveScale;
+            var poSr = go.AddComponent<SpriteRenderer>();
+            poSr.sprite = SpriteFactory.CreateDiamond(VisualConfig.SpriteResolution, ColorPalette.ObjectiveUnlit);
+            poSr.sortingOrder = VisualConfig.ElementSortOrder;
+            var unlitColor = ColorPalette.ObjectiveUnlit;
+            unlitColor.a = 0.25f;
+            poSr.color = unlitColor;
+            po.GlowRenderer = poSr;
         }
 
         // Create inventory

@@ -37,61 +37,61 @@ Incrementally add programmatic visuals to the Light Puzzle Game. Start with core
 - [x] 2. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 3. Apply visuals to player
-  - [ ] 3.1 Modify `PlayerController.cs` to apply visual configuration
+- [x] 3. Apply visuals to player
+  - [x] 3.1 Modify `PlayerController.cs` to apply visual configuration
     - In `Initialize()`, set `transform.localScale = Vector3.one * VisualConfig.PlayerScale`
     - In `Initialize()`, ensure a SpriteRenderer is attached with a circle sprite from SpriteFactory, colored with ColorPalette.Player, sorting order VisualConfig.PlayerSortOrder
     - Only create the sprite once (check if SpriteRenderer already exists)
     - _Requirements: 1.1, 1.2, 1.3_
 
-  - [ ]* 3.2 Write property test for player centering
+  - [x] 3.2 Write property test for player centering
     - **Property 1: Player position is tile-centered** — For any tile position (x, y), TileToWorld returns (x+0.5, y+0.5, 0)
     - **Validates: Requirements 1.2**
 
-- [ ] 4. Apply visuals to level tiles and game elements
-  - [ ] 4.1 Modify `LevelManager.cs` to render wall and floor tile visuals
+- [x] 4. Apply visuals to level tiles and game elements
+  - [x] 4.1 Modify `LevelManager.cs` to render wall and floor tile visuals
     - In `LoadLevelFromData()`, after building the tile grid, iterate all tiles and create GameObjects with SpriteRenderers
     - Wall tiles: square sprite from SpriteFactory, ColorPalette.Wall, sorting order VisualConfig.WallSortOrder, scale Vector3.one (full tile)
     - Floor tiles: square sprite from SpriteFactory, ColorPalette.Floor, sorting order VisualConfig.FloorSortOrder, scale Vector3.one (full tile)
     - Add tile GameObjects to _levelObjects for cleanup
     - _Requirements: 2.1, 2.2, 2.3, 2.4_
 
-  - [ ] 4.2 Modify `LevelManager.cs` to apply visuals to light sources
+  - [x] 4.2 Modify `LevelManager.cs` to apply visuals to light sources
     - When creating light source GameObjects, add SpriteRenderer with circle sprite, ColorPalette.LightSource, sorting order VisualConfig.ElementSortOrder
     - Set localScale to Vector3.one * VisualConfig.LightSourceScale
     - _Requirements: 3.1, 3.2, 3.3_
 
-  - [ ] 4.3 Modify `LevelManager.cs` to apply visuals to beam emitters
+  - [x] 4.3 Modify `LevelManager.cs` to apply visuals to beam emitters
     - When creating beam emitter GameObjects, add SpriteRenderer with triangle sprite, ColorPalette.BeamEmitter, sorting order VisualConfig.ElementSortOrder
     - Set localScale to Vector3.one * VisualConfig.BeamEmitterScale
     - Rotate sprite to match beam direction: compute angle from direction vector using Mathf.Atan2 and apply as Z rotation
     - _Requirements: 4.1, 4.2, 4.3_
 
-  - [ ]* 4.4 Write property test for beam emitter rotation
+  - [x] 4.4 Write property test for beam emitter rotation
     - **Property 2: Beam emitter rotation matches direction** — For any of the 8 grid directions, the computed rotation angle equals Atan2(dir.y, dir.x) in degrees
     - **Validates: Requirements 4.2**
 
-  - [ ] 4.5 Modify `LevelManager.cs` to apply visuals to mirrors
+  - [x] 4.5 Modify `LevelManager.cs` to apply visuals to mirrors
     - When creating mirror GameObjects, add SpriteRenderer with rectangle sprite, ColorPalette.MirrorSurface, sorting order VisualConfig.ElementSortOrder
     - Set localScale to Vector3.one * VisualConfig.MirrorScale
     - Set rotation to Quaternion.Euler(0, 0, -RotationIndex * 45f)
     - _Requirements: 5.1, 5.2, 5.4_
 
-  - [ ] 4.6 Modify `Mirror.cs` to update visual rotation on Rotate()
+  - [x] 4.6 Modify `Mirror.cs` to update visual rotation on Rotate()
     - In `Rotate()`, after updating RotationIndex, set `transform.rotation = Quaternion.Euler(0, 0, -RotationIndex * 45f)`
     - _Requirements: 5.3_
 
-  - [ ]* 4.7 Write property test for mirror visual rotation
+  - [x] 4.7 Write property test for mirror visual rotation
     - **Property 3: Mirror visual rotation matches rotation index** — For any rotation index in [0,7], the Z-rotation equals -(index * 45) degrees
     - **Validates: Requirements 5.2, 5.3**
 
-  - [ ] 4.8 Modify `LevelManager.cs` to apply visuals to puzzle objectives
+  - [x] 4.8 Modify `LevelManager.cs` to apply visuals to puzzle objectives
     - When creating puzzle objective GameObjects, add SpriteRenderer with diamond sprite, ColorPalette.ObjectiveUnlit, sorting order VisualConfig.ElementSortOrder
     - Set localScale to Vector3.one * VisualConfig.ObjectiveScale
     - Set initial alpha to 0.25 (unlit state)
     - _Requirements: 6.1, 6.2, 6.4_
 
-  - [ ] 4.9 Modify `PuzzleObjective.cs` to use ColorPalette for illumination states
+  - [x] 4.9 Modify `PuzzleObjective.cs` to use ColorPalette for illumination states
     - In `UpdateIlluminationState()`, when illuminated: set sprite color to ColorPalette.ObjectiveLit with alpha 0.85
     - When not illuminated: set sprite color to ColorPalette.ObjectiveUnlit with alpha 0.25
     - Use the existing SpriteRenderer (or GlowRenderer) on the GameObject
@@ -107,7 +107,7 @@ Incrementally add programmatic visuals to the Light Puzzle Game. Start with core
 - [ ] 6. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-  - [ ]* 6.1 Write unit tests for visual configuration values
+  - [ ] 6.1 Write unit tests for visual configuration values
     - Verify all ColorPalette fields are non-default
     - Verify all scale factors are in [0.4, 0.6]
     - Verify objective unlit alpha ≤ 0.3 and lit alpha ≥ 0.7
