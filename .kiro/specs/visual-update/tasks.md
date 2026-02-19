@@ -97,17 +97,17 @@ Incrementally add programmatic visuals to the Light Puzzle Game. Start with core
     - Use the existing SpriteRenderer (or GlowRenderer) on the GameObject
     - _Requirements: 6.2, 6.3_
 
-- [ ] 5. Polish beam rendering
-  - [ ] 5.1 Modify `BeamRenderer.cs` to use visual configuration
+- [x] 5. Polish beam rendering
+  - [x] 5.1 Modify `BeamRenderer.cs` to use visual configuration
     - Set BeamColor to ColorPalette.Beam
     - Set BeamWidth to VisualConfig.BeamWidth
     - Set sorting order on LineRenderers to VisualConfig.BeamSortOrder
     - _Requirements: 7.1, 7.2, 7.3_
 
-- [ ] 6. Checkpoint - Ensure all tests pass
+- [x] 6. Checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
-  - [ ] 6.1 Write unit tests for visual configuration values
+  - [x] 6.1 Write unit tests for visual configuration values
     - Verify all ColorPalette fields are non-default
     - Verify all scale factors are in [0.4, 0.6]
     - Verify objective unlit alpha ≤ 0.3 and lit alpha ≥ 0.7
@@ -115,7 +115,7 @@ Incrementally add programmatic visuals to the Light Puzzle Game. Start with core
     - Verify wall and floor colors are visually distinct
     - _Requirements: 1.1, 3.2, 4.3, 5.4, 6.2, 6.3, 6.4, 7.2, 8.1_
 
-- [ ] 7. Final checkpoint - Ensure all tests pass
+- [x] 7. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

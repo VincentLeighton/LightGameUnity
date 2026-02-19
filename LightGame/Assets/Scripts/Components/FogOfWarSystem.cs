@@ -4,6 +4,8 @@ using UnityEngine;
 /// <summary>
 /// Manages the fog-of-war overlay that hides unilluminated areas.
 /// Uses a render texture (one pixel per tile) with alpha lerping for fade transitions.
+/// Renders as a scene-space quad with sorting order from VisualConfig.FogSortOrder
+/// so that element and player sprites render above the fog.
 /// Listens to LightBeamSystem.OnIlluminationChanged for updates.
 /// </summary>
 public class FogOfWarSystem : MonoBehaviour
@@ -23,10 +25,12 @@ public class FogOfWarSystem : MonoBehaviour
     private float[,] _currentAlpha;  // current fog alpha per tile (1 = fully fogged)
     private float[,] _targetAlpha;   // target fog alpha per tile
     private HashSet<Vector2Int> _visibleTiles = new HashSet<Vector2Int>();
+    private GameObject _fogQuad;
 
     /// <summary>
     /// Initializes the fog system for a level of the given dimensions.
     /// All tiles start fully fogged.
+    /// Creates a scene-space quad to render the fog at VisualConfig.FogSortOrder.
     /// </summary>
     public void Initialize(int gridWidth, int gridHeight)
     {
@@ -59,8 +63,58 @@ public class FogOfWarSystem : MonoBehaviour
         if (FogMaterial != null)
             FogMaterial.SetTexture("_FogTex", _fogTexture);
 
+        // Create scene-space fog quad so fog respects sorting order hierarchy
+        CreateFogQuad(gridWidth, gridHeight);
+
         _visibleTiles.Clear();
         UpdateTexture();
+    }
+
+    /// <summary>
+    /// Creates a scene-space quad that covers the grid and renders the fog material
+    /// at VisualConfig.FogSortOrder, ensuring elements and player render above it.
+    /// </summary>
+    private void CreateFogQuad(int gridWidth, int gridHeight)
+    {
+        if (_fogQuad != null)
+            Destroy(_fogQuad);
+
+        _fogQuad = new GameObject("FogQuad");
+        _fogQuad.transform.SetParent(transform);
+
+        // Position the quad to cover the grid (tiles are at integer positions, centered)
+        // Grid goes from (0.5, 0.5) to (width-0.5, height-0.5) in world space
+        _fogQuad.transform.position = new Vector3(gridWidth * 0.5f, gridHeight * 0.5f, 0f);
+        _fogQuad.transform.localScale = new Vector3(gridWidth, gridHeight, 1f);
+
+        var meshFilter = _fogQuad.AddComponent<MeshFilter>();
+        meshFilter.mesh = CreateQuadMesh();
+
+        var meshRenderer = _fogQuad.AddComponent<MeshRenderer>();
+        meshRenderer.material = FogMaterial;
+        meshRenderer.sortingOrder = VisualConfig.FogSortOrder;
+    }
+
+    private static Mesh CreateQuadMesh()
+    {
+        var mesh = new Mesh();
+        mesh.vertices = new[]
+        {
+            new Vector3(-0.5f, -0.5f, 0f),
+            new Vector3( 0.5f, -0.5f, 0f),
+            new Vector3( 0.5f,  0.5f, 0f),
+            new Vector3(-0.5f,  0.5f, 0f)
+        };
+        mesh.uv = new[]
+        {
+            new Vector2(0f, 0f),
+            new Vector2(1f, 0f),
+            new Vector2(1f, 1f),
+            new Vector2(0f, 1f)
+        };
+        mesh.triangles = new[] { 0, 1, 2, 0, 2, 3 };
+        mesh.RecalculateNormals();
+        return mesh;
     }
 
     /// <summary>
@@ -154,6 +208,9 @@ public class FogOfWarSystem : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_fogQuad != null)
+            Destroy(_fogQuad);
+
         if (_fogTexture != null)
         {
             _fogTexture.Release();

@@ -54,6 +54,7 @@ public static class LightSourceLogic
     /// Bresenham line check from source to target.
     /// Returns true if no wall tile blocks the path.
     /// The source and target tiles themselves are not considered blockers.
+    /// Diagonal steps check both cardinal neighbors — if both are walls, LOS is blocked.
     /// </summary>
     public static bool HasLineOfSight(Vector2Int source, Vector2Int target, Func<Vector2Int, bool> isWall)
     {
@@ -73,18 +74,30 @@ public static class LightSourceLogic
                 return true;
 
             int e2 = 2 * err;
-            if (e2 > -dy)
+            bool stepX = e2 > -dy;
+            bool stepY = e2 < dx;
+
+            // Diagonal step: check both cardinal neighbors
+            if (stepX && stepY)
+            {
+                var hNeighbor = new Vector2Int(x0 + sx, y0);
+                var vNeighbor = new Vector2Int(x0, y0 + sy);
+                if (isWall(hNeighbor) && isWall(vNeighbor))
+                    return false;
+            }
+
+            if (stepX)
             {
                 err -= dy;
                 x0 += sx;
             }
-            if (e2 < dx)
+            if (stepY)
             {
                 err += dx;
                 y0 += sy;
             }
 
-            // Check if the intermediate tile is a wall (skip source, already passed)
+            // Check if we've arrived at the target after stepping
             if (x0 == x1 && y0 == y1)
                 return true;
 
@@ -92,4 +105,5 @@ public static class LightSourceLogic
                 return false;
         }
     }
+
 }

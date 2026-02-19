@@ -106,15 +106,15 @@ public class SortingOrderTests
     [Test]
     public void SortingOrders_AreStrictlyAscending()
     {
-        // Floor < Wall < Beam < Element < Player < Fog
+        // Floor < Wall < Beam < Fog < Element < Player
         var orders = new[]
         {
             ("Floor", VisualConfig.FloorSortOrder),
             ("Wall", VisualConfig.WallSortOrder),
             ("Beam", VisualConfig.BeamSortOrder),
+            ("Fog", VisualConfig.FogSortOrder),
             ("Element", VisualConfig.ElementSortOrder),
-            ("Player", VisualConfig.PlayerSortOrder),
-            ("Fog", VisualConfig.FogSortOrder)
+            ("Player", VisualConfig.PlayerSortOrder)
         };
 
         Prop.ForAll(
@@ -213,5 +213,82 @@ public class MirrorVisualRotationTests
                     $"Mirror rotation index {rotationIndex}: expected Z={normalizedExpected}, got Z={actualZ}");
             }
         ).QuickCheckThrowOnFailure();
+    }
+}
+
+
+// ============================================================
+// Feature: visual-update
+// Unit Tests: Visual configuration values
+// Validates: Requirements 1.1, 3.2, 4.3, 5.4, 6.2, 6.3, 6.4, 7.2, 8.1
+// ============================================================
+
+[TestFixture]
+public class VisualConfigurationUnitTests
+{
+    [Test]
+    public void ColorPalette_AllFieldsAreNonDefault()
+    {
+        Assert.AreNotEqual(default(Color), ColorPalette.Wall, "Wall color is default");
+        Assert.AreNotEqual(default(Color), ColorPalette.Floor, "Floor color is default");
+        Assert.AreNotEqual(default(Color), ColorPalette.Player, "Player color is default");
+        Assert.AreNotEqual(default(Color), ColorPalette.LightSource, "LightSource color is default");
+        Assert.AreNotEqual(default(Color), ColorPalette.BeamEmitter, "BeamEmitter color is default");
+        Assert.AreNotEqual(default(Color), ColorPalette.MirrorSurface, "MirrorSurface color is default");
+        Assert.AreNotEqual(default(Color), ColorPalette.ObjectiveUnlit, "ObjectiveUnlit color is default");
+        Assert.AreNotEqual(default(Color), ColorPalette.ObjectiveLit, "ObjectiveLit color is default");
+        Assert.AreNotEqual(default(Color), ColorPalette.Beam, "Beam color is default");
+        // Fog is Color.black which equals default(Color) in RGB but has a=1, so check alpha
+        Assert.AreEqual(1f, ColorPalette.Fog.a, 0.01f, "Fog alpha should be 1");
+    }
+
+    [Test]
+    public void ScaleFactors_AreInValidRange()
+    {
+        var scales = new[]
+        {
+            ("PlayerScale", VisualConfig.PlayerScale),
+            ("LightSourceScale", VisualConfig.LightSourceScale),
+            ("BeamEmitterScale", VisualConfig.BeamEmitterScale),
+            ("MirrorScale", VisualConfig.MirrorScale),
+            ("ObjectiveScale", VisualConfig.ObjectiveScale)
+        };
+
+        foreach (var (name, value) in scales)
+        {
+            Assert.GreaterOrEqual(value, 0.4f, $"{name} is below 0.4");
+            Assert.LessOrEqual(value, 0.6f, $"{name} is above 0.6");
+        }
+    }
+
+    [Test]
+    public void ObjectiveAlpha_MeetsBounds()
+    {
+        Assert.LessOrEqual(ColorPalette.ObjectiveUnlit.a, 0.3f,
+            $"ObjectiveUnlit alpha {ColorPalette.ObjectiveUnlit.a} should be <= 0.3");
+        Assert.GreaterOrEqual(ColorPalette.ObjectiveLit.a, 0.7f,
+            $"ObjectiveLit alpha {ColorPalette.ObjectiveLit.a} should be >= 0.7");
+    }
+
+    [Test]
+    public void BeamWidth_IsInValidRange()
+    {
+        Assert.GreaterOrEqual(VisualConfig.BeamWidth, 0.08f, "BeamWidth is below 0.08");
+        Assert.LessOrEqual(VisualConfig.BeamWidth, 0.15f, "BeamWidth is above 0.15");
+    }
+
+    [Test]
+    public void WallAndFloor_AreVisuallyDistinct()
+    {
+        Color.RGBToHSV(ColorPalette.Wall, out float wH, out float wS, out float wV);
+        Color.RGBToHSV(ColorPalette.Floor, out float fH, out float fS, out float fV);
+
+        float hueDiff = Mathf.Abs(wH - fH);
+        float satDiff = Mathf.Abs(wS - fS);
+        float valDiff = Mathf.Abs(wV - fV);
+        float totalDiff = hueDiff + satDiff + valDiff;
+
+        Assert.Greater(totalDiff, 0.01f,
+            $"Wall and Floor colors are not visually distinct (HSV diff: {totalDiff})");
     }
 }

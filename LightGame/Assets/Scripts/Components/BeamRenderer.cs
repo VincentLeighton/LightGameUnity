@@ -14,10 +14,10 @@ public class BeamRenderer : MonoBehaviour
     public LightBeamSystem BeamSystem;
 
     [Tooltip("Beam line width")]
-    public float BeamWidth = 0.05f;
+    public float BeamWidth = VisualConfig.BeamWidth;
 
     [Tooltip("Beam color")]
-    public Color BeamColor = new Color(1f, 0.95f, 0.6f, 1f);
+    public Color BeamColor = ColorPalette.Beam;
 
     private List<LineRenderer> _activeLines = new List<LineRenderer>();
     private List<GameObject> _linePool = new List<GameObject>();
@@ -75,6 +75,7 @@ public class BeamRenderer : MonoBehaviour
             lr.endWidth = BeamWidth;
             lr.startColor = BeamColor;
             lr.endColor = BeamColor;
+            lr.sortingOrder = VisualConfig.BeamSortOrder;
             lr.gameObject.SetActive(true);
 
             _activeLines.Add(lr);
@@ -101,7 +102,7 @@ public class BeamRenderer : MonoBehaviour
             go.transform.SetParent(transform);
             var lr = go.AddComponent<LineRenderer>();
             lr.useWorldSpace = true;
-            lr.sortingOrder = 5;
+            lr.sortingOrder = VisualConfig.BeamSortOrder;
             lr.material = new Material(Shader.Find("Sprites/Default"));
         }
 
