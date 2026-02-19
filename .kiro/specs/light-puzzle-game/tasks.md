@@ -356,7 +356,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Test build on Android device or emulator
     - _Requirements: 11.1, 11.5_
 
-- [ ] 14. Final checkpoint - Ensure all tests pass
+- [x] 14. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes
