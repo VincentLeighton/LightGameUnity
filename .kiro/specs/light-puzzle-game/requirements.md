@@ -159,3 +159,14 @@ A top-down puzzle game built in Unity where the player explores a dark world usi
 3. WHEN the game is sent to the background, THE Game_World SHALL save the current Level state so progress is not lost.
 4. WHEN the game is resumed from the background, THE Game_World SHALL restore the saved Level state and continue from where the Player left off.
 5. THE Game_World SHALL support portrait orientation as the primary display mode.
+
+### Requirement 12: Start Screen
+
+**User Story:** As a player, I want to see a start screen when I launch the game, so that I can begin playing by tapping a clearly visible button.
+
+#### Acceptance Criteria
+
+1. WHEN the game launches, THE UIManager SHALL display a Start_Screen panel containing the game title and a "Start Game" button.
+2. WHEN the Player taps the "Start Game" button, THE UIManager SHALL hide the Start_Screen panel and call GameManager.Instance.StartGame() to begin the game loop.
+3. WHILE the GameState is MainMenu, THE UIManager SHALL display only the Start_Screen panel and hide all gameplay UI elements.
+4. THE "Start Game" button SHALL use a touch target with a minimum size of 48x48 density-independent pixels.

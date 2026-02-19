@@ -301,8 +301,29 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
       5. The code will manage creating/updating LineRenderers at runtime using this prefab
     - _Requirements: 3.1, 3.4_
 
-- [ ] 12. Integration and final wiring
-  - [ ] 12.1 Wire all systems together in the main scene
+- [-] 12. Implement start screen
+  - [x] 12.1 Create StartScreenPanel UI and wire to GameManager
+    - Add a StartScreenPanel to the Canvas with a game title (TextMeshPro) and a "Start Game" button (minimum 48x48dp touch target)
+    - In UIManager, add a reference to StartScreenPanel and subscribe to GameManager.OnStateChanged
+    - Show StartScreenPanel and hide gameplay UI (InventoryPanel, ObjectivePanel, ModeToggleButton) when state is MainMenu
+    - Hide StartScreenPanel and show gameplay UI when state transitions away from MainMenu
+    - Wire the "Start Game" button's onClick to call GameManager.Instance.StartGame()
+    - ⚠️ **REQUIRES HUMAN INPUT — Unity Editor steps (after writing the script changes):**
+      1. In the Canvas, right-click → UI → Panel, name it "StartScreenPanel"
+      2. Add a TextMeshPro child for the game title
+      3. Add a Button (TextMeshPro) child, set text to "Start Game", ensure size is at least 48x48
+      4. In the UIManager Inspector, drag the StartScreenPanel reference
+      5. Wire the button's OnClick to call GameManager.Instance.StartGame() (or let the code handle it)
+    - _Requirements: 12.1, 12.2, 12.3, 12.4_
+
+  - [x] 12.2 Write property test for UI panel visibility per game state
+    - **Property 16: UI panel visibility per game state**
+    - For each GameState value, verify the correct panels are shown/hidden
+    - Verify StartScreenPanel is visible only during MainMenu state
+    - **Validates: Requirements 12.1, 12.3**
+
+- [ ] 13. Integration and final wiring
+  - [x] 13.1 Wire all systems together in the main scene
     - ⚠️ **REQUIRES HUMAN INPUT — Unity Editor steps:**
       1. Set up the scene hierarchy per design: GameManager at root level, LevelRoot as a container for level objects, MainCamera at root
       2. On the GameManager GameObject, verify `DontDestroyOnLoad` is called in Awake (test by entering Play mode and checking it persists)
@@ -319,7 +340,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Test full game loop: load level → move → place mirrors → illuminate objectives → level complete → next level
     - _Requirements: All_
 
-  - [ ] 12.2 Configure Android build settings
+  - [x] 13.2 Configure Android build settings
     - ⚠️ **REQUIRES HUMAN INPUT — Unity Editor steps:**
       1. Go to File → Build Settings → Player Settings
       2. Set Company Name, Product Name, Package Name (e.g. `com.yourname.lightpuzzle`)
@@ -335,7 +356,7 @@ Build a top-down puzzle game in Unity for Android where the player uses light so
     - Test build on Android device or emulator
     - _Requirements: 11.1, 11.5_
 
-- [ ] 13. Final checkpoint - Ensure all tests pass
+- [ ] 14. Final checkpoint - Ensure all tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Notes

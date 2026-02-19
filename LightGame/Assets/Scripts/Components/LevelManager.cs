@@ -219,12 +219,17 @@ public class LevelManager : MonoBehaviour
             BeamSystem.RecalculateAllBeams();
         }
 
-        // Initialize fog system
+        // Initialize fog system and subscribe to ongoing illumination changes
         if (FogSystem != null)
         {
             FogSystem.Initialize(data.width, data.height);
             if (BeamSystem != null)
+            {
+                // Subscribe fog system to ongoing illumination changes (mirror place/rotate/pickup)
+                BeamSystem.OnIlluminationChanged += FogSystem.UpdateIllumination;
+                // Apply initial illumination
                 FogSystem.UpdateIllumination(BeamSystem.GetIlluminatedTiles());
+            }
         }
 
         // Set camera target
@@ -240,6 +245,10 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void ClearLevel()
     {
+        // Unsubscribe fog system from beam system before clearing
+        if (FogSystem != null && BeamSystem != null)
+            BeamSystem.OnIlluminationChanged -= FogSystem.UpdateIllumination;
+
         foreach (var go in _levelObjects)
         {
             if (go != null)

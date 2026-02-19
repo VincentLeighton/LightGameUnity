@@ -45,8 +45,21 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
+        // Target 60fps on mobile; the requirement is a stable 30fps minimum,
+        // so aiming for 60 gives headroom on capable devices.
+        Application.targetFrameRate = 60;
+
         _saveData = new SaveData();
         LoadProgress();
+    }
+
+    /// <summary>
+    /// Starts the game from the saved progress (or level 0 if no save exists).
+    /// Call this to kick off the game loop.
+    /// </summary>
+    public void StartGame()
+    {
+        LoadLevel(_saveData.currentLevelIndex);
     }
 
     private void Update()
@@ -83,6 +96,10 @@ public class GameManager : MonoBehaviour
         {
             _saveData.currentLevelIndex = levelIndex;
             SetState(GameState.Playing);
+
+            // Unsubscribe first to avoid duplicate subscriptions on reload
+            if (BeamSystem != null)
+                BeamSystem.OnIlluminationChanged -= CheckPuzzleCompletion;
 
             // Subscribe to illumination changes for puzzle completion check
             if (BeamSystem != null)

@@ -63,6 +63,7 @@ Main Scene
 │   ├── InputManager
 │   └── UIManager
 │       ├── Canvas (Screen Space - Overlay)
+│       │   ├── StartScreenPanel
 │       │   ├── InventoryPanel
 │       │   ├── ObjectivePanel
 │       │   ├── ModeToggleButton
@@ -107,6 +108,26 @@ public class GameManager : MonoBehaviour
 ```
 
 **Why a singleton?** The GameManager needs to survive scene transitions (loading new levels). Unity's `DontDestroyOnLoad` keeps it alive. The `Instance` property lets any script access it without needing a reference — e.g., `GameManager.Instance.PauseGame()`.
+
+The GameManager also exposes a `StartGame()` method that transitions from `MainMenu` to `Playing` state and loads the saved level (or level 0 if no save exists).
+
+```csharp
+public void StartGame(); // Transitions from MainMenu → Playing, loads saved level
+```
+
+### Start Screen
+
+The start screen is a UI panel managed by UIManager, shown when `GameState` is `MainMenu`. It contains the game title and a "Start Game" button. The button calls `GameManager.Instance.StartGame()`.
+
+```csharp
+// StartScreenPanel is a child of the Canvas, managed by UIManager
+// - Title: TextMeshPro text displaying the game name
+// - StartButton: Button that calls GameManager.Instance.StartGame()
+// UIManager subscribes to GameManager.OnStateChanged and shows/hides
+// the StartScreenPanel based on whether state == MainMenu
+```
+
+The UIManager already subscribes to `GameManager.OnStateChanged` to toggle panels (PauseMenu, LevelCompletePanel, GameCompletePanel). The StartScreenPanel follows the same pattern — it's shown when state is `MainMenu` and hidden for all other states. All gameplay UI (InventoryPanel, ObjectivePanel, ModeToggleButton) is hidden while on the start screen.
 
 ### InputManager
 
@@ -542,6 +563,12 @@ The following properties were derived from the acceptance criteria in the requir
 
 **Validates: Requirements 11.4**
 
+### Property 16: UI panel visibility per game state
+
+*For any* GameState value, the set of visible UI panels must match the expected configuration for that state. When state is `MainMenu`, only the StartScreenPanel is visible and all gameplay panels are hidden. When state is `Playing`, gameplay panels are visible and the StartScreenPanel is hidden. Each state has exactly one valid panel configuration.
+
+**Validates: Requirements 12.1, 12.3**
+
 ## Error Handling
 
 ### Level Loading Errors
@@ -644,3 +671,4 @@ Property-based tests need random input generators:
 | P13: Level completion check | PuzzleObjectiveTests.cs | Property |
 | P14: Remaining objectives count | PuzzleObjectiveTests.cs | Property |
 | P15: Save/load round-trip | LevelDataTests.cs | Property |
+| P16: UI panel visibility per state | UIManagerTests.cs | Property |

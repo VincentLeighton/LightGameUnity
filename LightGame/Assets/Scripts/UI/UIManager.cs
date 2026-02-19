@@ -3,8 +3,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// Manages all UI panels: inventory display, objective count, mode toggle,
-/// pause menu, level complete, and game complete screens.
+/// Manages all UI panels: start screen, inventory display, objective count,
+/// mode toggle, pause menu, level complete, and game complete screens.
 /// Attach to the Canvas GameObject and wire up references in the Inspector.
 /// </summary>
 public class UIManager : MonoBehaviour
@@ -22,11 +22,24 @@ public class UIManager : MonoBehaviour
     [Tooltip("Reference to the LightBeamSystem")]
     public LightBeamSystem BeamSystem;
 
+    [Header("Start Screen")]
+    [Tooltip("Panel shown on the start/main-menu screen")]
+    public GameObject StartScreenPanel;
+
+    [Tooltip("Button on the start screen that begins the game")]
+    public Button StartButton;
+
     [Header("Inventory Panel")]
+    [Tooltip("Panel containing the inventory display")]
+    public GameObject InventoryPanel;
+
     [Tooltip("Text displaying the mirror count")]
     public Text InventoryCountText;
 
     [Header("Objective Panel")]
+    [Tooltip("Panel containing the objective display")]
+    public GameObject ObjectivePanel;
+
     [Tooltip("Text displaying remaining objectives count")]
     public Text ObjectiveCountText;
 
@@ -63,6 +76,9 @@ public class UIManager : MonoBehaviour
         if (LevelMgr != null)
             LevelMgr.OnLevelLoaded += HandleLevelLoaded;
 
+        if (StartButton != null)
+            StartButton.onClick.AddListener(OnStartClicked);
+
         if (ModeToggleButton != null)
             ModeToggleButton.onClick.AddListener(OnModeToggleClicked);
 
@@ -83,6 +99,9 @@ public class UIManager : MonoBehaviour
 
         UnsubscribeInventory();
 
+        if (StartButton != null)
+            StartButton.onClick.RemoveListener(OnStartClicked);
+
         if (ModeToggleButton != null)
             ModeToggleButton.onClick.RemoveListener(OnModeToggleClicked);
 
@@ -96,6 +115,13 @@ public class UIManager : MonoBehaviour
         SetPanelActive(PauseMenuPanel, false);
         SetPanelActive(LevelCompletePanel, false);
         SetPanelActive(GameCompletePanel, false);
+
+        // Set initial visibility based on current game state
+        var state = GameMgr != null ? GameMgr.CurrentState : GameState.MainMenu;
+        bool isMainMenu = state == GameState.MainMenu;
+
+        SetPanelActive(StartScreenPanel, isMainMenu);
+        SetGameplayUIActive(!isMainMenu);
 
         UpdateModeToggleLabel();
     }
@@ -136,6 +162,15 @@ public class UIManager : MonoBehaviour
     /// </summary>
     private void HandleStateChanged(GameState newState)
     {
+        bool isMainMenu = newState == GameState.MainMenu;
+
+        // Start screen is only visible during MainMenu
+        SetPanelActive(StartScreenPanel, isMainMenu);
+
+        // Gameplay UI is hidden during MainMenu, visible otherwise
+        SetGameplayUIActive(!isMainMenu);
+
+        // Overlay panels
         SetPanelActive(PauseMenuPanel, newState == GameState.Paused);
         SetPanelActive(LevelCompletePanel, newState == GameState.LevelComplete);
         SetPanelActive(GameCompletePanel, newState == GameState.GameComplete);
@@ -208,6 +243,26 @@ public class UIManager : MonoBehaviour
     {
         if (GameMgr != null)
             GameMgr.ResumeGame();
+    }
+
+    /// <summary>
+    /// Called when the Start Game button is clicked.
+    /// </summary>
+    private void OnStartClicked()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.StartGame();
+    }
+
+    /// <summary>
+    /// Shows or hides gameplay UI elements (inventory, objectives, mode toggle).
+    /// </summary>
+    private void SetGameplayUIActive(bool active)
+    {
+        SetPanelActive(InventoryPanel, active);
+        SetPanelActive(ObjectivePanel, active);
+        if (ModeToggleButton != null)
+            ModeToggleButton.gameObject.SetActive(active);
     }
 
     private static void SetPanelActive(GameObject panel, bool active)
