@@ -8,10 +8,11 @@ Shader "Custom/FogOfWar"
     }
     SubShader
     {
-        Tags { "Queue"="Transparent" "RenderType"="Transparent" }
+        Tags { "Queue"="Transparent+1" "RenderType"="Transparent" }
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha
         ZWrite Off
+        ZTest Always
 
         Pass
         {
@@ -33,7 +34,6 @@ Shader "Custom/FogOfWar"
                 float4 vertex : SV_POSITION;
             };
 
-            sampler2D _MainTex;
             sampler2D _FogTex;
             fixed4 _FogColor;
 

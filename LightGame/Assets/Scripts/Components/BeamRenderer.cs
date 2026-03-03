@@ -17,10 +17,16 @@ public class BeamRenderer : MonoBehaviour
     public float BeamWidth = VisualConfig.BeamWidth;
 
     [Tooltip("Beam color")]
-    public Color BeamColor = ColorPalette.Beam;
+    public Color BeamColor;
 
     private List<LineRenderer> _activeLines = new List<LineRenderer>();
     private List<GameObject> _linePool = new List<GameObject>();
+
+    private void Awake()
+    {
+        if (BeamColor == default)
+            BeamColor = ColorPalette.Beam;
+    }
 
     private void OnEnable()
     {

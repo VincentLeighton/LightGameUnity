@@ -20,6 +20,7 @@ public class SortingOrderHierarchyPropertyTests
             ("Wall", VisualConfig.WallSortOrder),
             ("Beam", VisualConfig.BeamSortOrder),
             ("Fog", VisualConfig.FogSortOrder),
+            ("Border", VisualConfig.BorderSortOrder),
             ("Element", VisualConfig.ElementSortOrder),
             ("Player", VisualConfig.PlayerSortOrder)
         };

@@ -27,6 +27,9 @@ public class LevelManager : MonoBehaviour
     [Tooltip("Reference to the CameraController")]
     public CameraController CameraCtrl;
 
+    [Tooltip("Reference to the IlluminationBorderRenderer")]
+    public IlluminationBorderRenderer BorderRenderer;
+
     [Tooltip("Optional prefab for mirror objects")]
     public GameObject MirrorPrefab;
 
@@ -281,6 +284,16 @@ public class LevelManager : MonoBehaviour
             }
         }
 
+        // Initialize border renderer and subscribe to illumination changes
+        if (BorderRenderer != null && BeamSystem != null)
+        {
+            BorderRenderer.BeamSystem = BeamSystem;
+            // Manually subscribe since OnEnable already ran before BeamSystem was assigned
+            BeamSystem.OnIlluminationChanged += BorderRenderer.UpdateBorderVisuals;
+            // Apply initial illumination
+            BorderRenderer.UpdateBorderVisuals(BeamSystem.GetIlluminatedTiles());
+        }
+
         // Set camera target
         if (CameraCtrl != null && Player != null)
             CameraCtrl.SetTarget(Player.transform);
@@ -297,6 +310,10 @@ public class LevelManager : MonoBehaviour
         // Unsubscribe fog system from beam system before clearing
         if (FogSystem != null && BeamSystem != null)
             BeamSystem.OnIlluminationChanged -= FogSystem.UpdateIllumination;
+
+        // Clear border renderer reference
+        if (BorderRenderer != null && BeamSystem != null)
+            BeamSystem.OnIlluminationChanged -= BorderRenderer.UpdateBorderVisuals;
 
         foreach (var go in _levelObjects)
         {

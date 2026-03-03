@@ -106,13 +106,14 @@ public class SortingOrderTests
     [Test]
     public void SortingOrders_AreStrictlyAscending()
     {
-        // Floor < Wall < Beam < Fog < Element < Player
+        // Floor < Wall < Beam < Fog < Border < Element < Player
         var orders = new[]
         {
             ("Floor", VisualConfig.FloorSortOrder),
             ("Wall", VisualConfig.WallSortOrder),
             ("Beam", VisualConfig.BeamSortOrder),
             ("Fog", VisualConfig.FogSortOrder),
+            ("Border", VisualConfig.BorderSortOrder),
             ("Element", VisualConfig.ElementSortOrder),
             ("Player", VisualConfig.PlayerSortOrder)
         };
