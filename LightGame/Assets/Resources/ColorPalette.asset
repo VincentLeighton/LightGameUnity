@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa5e64370de435d41b51d091e0189d3f, type: 3}
+  m_Name: ColorPalette
+  m_EditorClassIdentifier: 
+  wall: {r: 0.101960786, g: 0.101960786, b: 0.18039216, a: 1}
+  floor: {r: 0.05882353, g: 0.05882353, b: 0.101960786, a: 1}
+  fog: {r: 0, g: 0, b: 0, a: 1}
+  player: {r: 0.30588236, g: 0.8039216, b: 0.76862746, a: 1}
+  lightSource: {r: 0.9764706, g: 0.65882355, b: 0.14509805, a: 1}
+  beamEmitter: {r: 1, g: 0.43529412, b: 0, a: 1}
+  mirrorSurface: {r: 0.6901961, g: 0.74509805, b: 0.77254903, a: 1}
+  objectiveUnlit: {r: 0.2901961, g: 0.078431375, b: 0.54901963, a: 0.25}
+  objectiveLit: {r: 1, g: 0.8392157, b: 0, a: 1}
+  beam: {r: 1, g: 0.9607843, b: 0.6156863, a: 1}
